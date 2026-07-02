@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment Variables
+.env
+.env.*
+!.env.example
+
+
+# Pytest
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+
+# Caches
+.cache/
+
+# macOS
+.DS_Store
+
+# FastAPI / Uvicorn
+uvicorn.log
+
+# Alembic
+alembic/versions/__pycache__/
