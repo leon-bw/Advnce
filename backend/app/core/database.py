@@ -8,7 +8,7 @@ class Base(DeclarativeBase):
     pass
 
 
-engine = create_engine(settings.database_url, echo=settings.app_debug)
+engine = create_engine(settings.database_url, echo=settings.app_debug, future=True)
 
 SessionLocal = sessionmaker(
     autocommit=False,
