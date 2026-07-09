@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     app_description: str = "A financial wellness app: money tracking, guided learning and emotional reflection"
     app_version: str = "1.0.0"
     debug: bool = True
+    api_v1_prefix: str = "/api/v1"
 
     database_url: str
 

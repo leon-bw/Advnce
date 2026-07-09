@@ -13,4 +13,4 @@ app = FastAPI(
 
 
 app.include_router(health_router)
-app.include_router(auth_router, prefix=settings.API_V1_PREFIX)
+app.include_router(auth_router, prefix=settings.api_v1_prefix)
