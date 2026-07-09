@@ -8,7 +8,7 @@ app = FastAPI(
     title=settings.app_name,
     description=settings.app_description,
     version=settings.app_version,
-    debug=settings.app_debug,
+    debug=settings.debug,
 )
 
 
