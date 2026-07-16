@@ -28,7 +28,7 @@ class OnboardingAnswer(BaseModel):
 
 
 class OnboardingComplete(BaseModel):
-    response: list[OnboardingAnswer]
+    response: list[OnboardingAnswer] = Field(min_length=1)
 
 
 class PersonaResponse(BaseModel):
@@ -37,10 +37,10 @@ class PersonaResponse(BaseModel):
     income_type: Optional[str] = None
     pay_frequency: Optional[str] = None
     confidence_level: Optional[str] = None
-    behavior_pattern: Optional[str] = None
+    behaviour_pattern: Optional[str] = None
     spending_trigger: Optional[str] = None
     coaching_style: Optional[str] = None
-    setup_preference: Optional[str] = None
+    setup_preferences: Optional[str] = None
     thirty_day_win: Optional[str] = None
 
     model_config = {"from_attributes": True}

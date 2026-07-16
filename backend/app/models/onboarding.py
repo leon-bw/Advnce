@@ -12,10 +12,10 @@ if TYPE_CHECKING:
 
 
 class UserProfile(Base):
-    __tablename__ = "user profiles"
+    __tablename__ = "user_profiles"
 
-    user_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("users.id", ondelete="CASECADE"), primary_key=True
+    user_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
     )
     display_name: Mapped[str] = mapped_column(String(120), nullable=True)
     currency_code: Mapped[str] = mapped_column(String(3), default="GBP", nullable=False)
@@ -38,11 +38,16 @@ class UserProfile(Base):
 
 
 class OnboardingResponse(Base):
-    __tablename__ = "onboarding responses"
+    __tablename__ = "onboarding_responses"
 
-    id: Mapped[uuid.UUID] = mapped_column(primary_key=True, default=uuid.uuid4)
-    user_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("users.id", ondelete="CASECADE"), nullable=False, index=True
+    id: Mapped[str] = mapped_column(
+        String(36), primary_key=True, default=lambda: str(uuid.uuid4())
+    )
+    user_id: Mapped[str] = mapped_column(
+        String(36),
+        ForeignKey("users.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     question_key: Mapped[str] = mapped_column(String(100), nullable=False, index=True)
     answer_value: Mapped[str] = mapped_column(String(255), nullable=False)
@@ -54,10 +59,10 @@ class OnboardingResponse(Base):
 
 
 class UserPersona(Base):
-    __tablename__ = "user personas"
+    __tablename__ = "user_personas"
 
-    user_id: Mapped[uuid.UUID] = mapped_column(
-        ForeignKey("users.id", ondelete="CASECADE"), primary_key=True
+    user_id: Mapped[str] = mapped_column(
+        String(36), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True
     )
     primary_goal: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)
     main_challenge: Mapped[Optional[str]] = mapped_column(String(100), nullable=True)

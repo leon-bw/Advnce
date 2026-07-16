@@ -16,7 +16,7 @@ def get_persona_from_responses(
         "income_type",
         "pay_frequency",
         "confidence_level",
-        "behavior_pattern",
+        "behaviour_pattern",
         "spending_trigger",
         "coaching_style",
         "setup_preferences",
