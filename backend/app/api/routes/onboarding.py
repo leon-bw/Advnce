@@ -25,30 +25,41 @@ def complete_onboarding(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
+    if not data.response:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Responses are required"
+        )
+
+    profile = (
+        db.query(UserProfile).filter(UserProfile.user_id == current_user.id).first()
+    )
+    if not profile:
+        profile = UserProfile(user_id=current_user.id)
+        db.add(profile)
+
     db.query(OnboardingResponse).filter(
         OnboardingResponse.user_id == current_user.id
     ).delete()
-    for answer in data.response:
+
+    response_map = {"user_id": current_user.id}
+    for item in data.response:
         db.add(
             OnboardingResponse(
                 user_id=current_user.id,
-                question_key=answer.question_key,
-                answer_value=answer.answer_value,
+                question_key=item.question_key,
+                answer_value=item.answer_value,
             )
         )
+        response_map[item.question_key] = item.answer_value
 
-    response_map = {a.question_key: a.answer_value for a in data.response}
-
-    existing_persona = db.get(UserPersona, current_user.id)
+    existing_persona = (
+        db.query(UserPersona).filter(UserPersona.user_id == current_user.id).first()
+    )
     persona = get_persona_from_responses(response_map, existing_persona)
-    persona.user_id = current_user.id
+
     if existing_persona is None:
         db.add(persona)
 
-    profile = db.get(UserProfile, current_user.id)
-    if profile is None:
-        profile = UserProfile(user_id=current_user.id)
-        db.add(profile)
     profile.onboarding_completed = True
 
     db.commit()
@@ -61,14 +72,18 @@ def complete_onboarding(
 
 
 @router.get("/summary", response_model=OnboardingSummaryResponse)
-def onboarding_summary(
-    db: Session = Depends(get_db), current_user: User = Depends(get_current_user)
+def get_onboarding_summary(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
 ):
-    persona = db.get(UserPersona, current_user.id)
-    if persona is None:
+    persona = (
+        db.query(UserPersona).filter(UserPersona.user_id == current_user.id).first()
+    )
+    if not persona:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Onboarding not complete"
         )
+
     return OnboardingSummaryResponse(
         persona=PersonaResponse.model_validate(persona),
         recommended_plan=RecommendedPlanResponse(**build_recommended_plan(persona)),
