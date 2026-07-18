@@ -11,7 +11,7 @@ from app.schemas.onboarding import (
     PersonaResponse,
     RecommendedPlanResponse,
 )
-from backend.app.services.onboarding_service import (
+from app.services.onboarding_service import (
     build_recommended_plan,
     get_persona_from_responses,
 )
