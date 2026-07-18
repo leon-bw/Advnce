@@ -1,2 +1,11 @@
 # VS Code
 .vscode/
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# macOS
+.DS_Store
